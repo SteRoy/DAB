@@ -9,7 +9,7 @@ class ServerManager {
     }
 
     getNewBot(n=1) {
-        for (n; n>= 0; n--) {
+        for (n; n> 0; n--) {
             const pt = this.config.prevTokens ? this.config.prevTokens : [];
             const nt = this.manager.allocateBot(this.botTokens.concat(pt), this.config.nickname);
             if (nt) {
@@ -20,9 +20,15 @@ class ServerManager {
     }
 
     initialiseBot(token) {
-        const nb = new Bot(token, this.config.invite);
+        const nb = new Bot(token, this.config.invite, this);
         this.bots[token] = nb;
     }
+
+    invalidateBot() {
+
+    }
+
+
 }
 
 module.exports = ServerManager;

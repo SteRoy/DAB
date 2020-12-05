@@ -1,9 +1,13 @@
 const axios = require("axios");
+const discordjs = require("discord.js");
+const libPrint = require("../lib/console");
 
 class Bot {
-    constructor(token, invite) {
+    constructor(token, invite, serverManager) {
         this.token = token;
         this.server = invite;
+        this.serverManager = serverManager;
+        this.client = new discordjs.Client(this.token);
         this.joinServer();
     }
 
@@ -14,9 +18,13 @@ class Bot {
             'Accept': '*/*'
         };
         axios.post(`https://discord.com/api/v6/invites/${this.server}`, undefined, {headers}).then(response => {
-            console.log(response.data);
+            // Succeeded
+            libPrint.print(`Token ${this.token} has joined ${this.server}.`)
         }).catch((err) => {
-            // 401 - bot is murdered and needs 'verified'
+            if (err.response.status === 401) {
+                // 401 - bot is murdered and needs 'verified'
+                libPrint.error(`Token ${this.token} needs to be verified / the token is invalid.`);
+            }
         })
     }
 }
