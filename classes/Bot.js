@@ -73,9 +73,11 @@ class Bot {
             this.error(err);
         });
 
-        this.client.on('debug', (msg) => console.log);
+        this.client.on('debug', (msg) => {
+            console.log(msg);
+        });
 
-        this.client.login(this.token).catch(err => {
+        this.client.login(this.token.toString()).catch(err => {
             this.error(`Invalid Token`);
         });
 
